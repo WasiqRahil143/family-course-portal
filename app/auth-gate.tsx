@@ -10,7 +10,13 @@ const AUTH_PATHS = new Set([
   "sign-up",
   "forgot-password",
   "reset-password",
-  "verify-email",
+  "email-verification",
+  "email-otp",
+  "magic-link",
+  "recover-account",
+  "sign-out",
+  "two-factor",
+  "accept-invitation",
   "callback",
 ]);
 

@@ -234,3 +234,4 @@ Implement the approved-user lookup and server-enforced role checks, then connect
 - Enabled Neon Auth and the Data API, required email verification, and trusted only localhost plus `family-course-portal-demo.netlify.app` for redirects.
 - Deliberately disabled automatic public-schema grants when enabling the Data API. No `club` data is exposed through the API yet.
 - Added the frontend authentication gate and account/session UI, plus `0002_neon_auth_identity.sql`; the production build succeeds.
+- Fixed the Neon verification-code route to use `/auth/email-verification` and allowed the complete set of supported authentication routes. New users now see the six-digit code entry screen instead of being returned to sign-in.
