@@ -76,7 +76,7 @@ The public site is a functional frontend preview, not yet an operational portal.
 | Main interface | `app/page.tsx` | Frontend state only |
 | Portal metadata | `app/layout.tsx` | Working |
 | Jungle artwork | `public/jungle-monkey.png` | Working |
-| Authentication/database | Supabase | Not connected; create a new isolated project only |
+| Authentication/database | Supabase | Not connected; isolated project creation is blocked by the organization’s two-active-free-project limit |
 | Email | Hostinger Mail | Separate mailbox; not connected to portal automation |
 | School working list | Shared spreadsheet workflow | Separate; future import or migration needed |
 
@@ -206,7 +206,7 @@ Done when the portal can safely support the first real course week.
 
 ## Immediate next action
 
-Create the isolated Supabase project and implement authentication plus the minimum secure schema. Do not enter real child or health data until access policies have been tested using two separate family accounts.
+Choose a safe Supabase capacity option, then create the isolated project and implement authentication plus the minimum secure schema. The Friending Around organization currently has two active free projects, so Supabase rejected creation of another free project. Do not pause, modify or reuse an existing project as a workaround. Do not enter real child or health data until access policies have been tested using two separate family accounts.
 
 ## Change log
 
@@ -217,3 +217,4 @@ Create the isolated Supabase project and implement authentication plus the minim
 - Recorded the frontend, integrations, limitations, decisions and architecture.
 - Defined the two-week path from preview to secure pilot.
 - Previous portal update: replaced the monkey artwork, made the main family interface multilingual and removed prominent demo labels.
+- Attempted to create an isolated Frankfurt Supabase project at €0/month; Supabase rejected it because the organization has reached its two-active-free-project limit. No existing project was changed.
