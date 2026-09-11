@@ -76,7 +76,9 @@ The public site is a functional frontend preview, not yet an operational portal.
 | Main interface | `app/page.tsx` | Frontend state only |
 | Portal metadata | `app/layout.tsx` | Working |
 | Jungle artwork | `public/jungle-monkey.png` | Working |
-| Authentication/database | Supabase | Not connected; isolated project creation is blocked by the organization’s two-active-free-project limit |
+| Relational database | Neon `lively-dawn-61650044` — Train With Rahil – School Club Platform | Created; PostgreSQL 17 in Frankfurt; initial 20-table schema verified; app connection pending |
+| Authentication | Firebase Authentication | Selected; project not yet created or connected |
+| Supabase | Friending Around organization | Not used for this portal; isolated creation was blocked by its free-project limit |
 | Email | Hostinger Mail | Separate mailbox; not connected to portal automation |
 | School working list | Shared spreadsheet workflow | Separate; future import or migration needed |
 
@@ -85,14 +87,16 @@ Never modify Rahil’s other GitHub, Netlify, or Supabase projects. Any database
 ## Intended production architecture
 
 1. Next.js frontend on Netlify.
-2. A dedicated Supabase project for authentication, Postgres data and secure access rules.
-3. Families can sign in on several devices using one account. Password reset or passwordless email login must work.
-4. A family account may contain multiple guardians and children.
-5. Roles and school/course assignments control access. Row Level Security protects every exposed table.
-6. Health and child data are minimized, restricted and covered by retention/deletion rules.
-7. Public photo/video consent is optional, granular, revocable and never required for participation.
-8. Cash is not processed online. Families choose a plan; only an authorized manager confirms receipt.
-9. Sensitive status changes retain a timestamp and responsible user.
+2. A dedicated Neon PostgreSQL database in Frankfurt for relational application data.
+3. Firebase Authentication for family and manager identities and sessions.
+4. Netlify server functions validate Firebase identity and access Neon using server-only credentials.
+5. Families can sign in on several devices using one account. Password reset must work.
+6. A family account may contain multiple guardians and children.
+7. The server enforces roles and school/course assignments on every request; the browser never receives database credentials.
+8. Health and child data are minimized, restricted and covered by retention/deletion rules.
+9. Public photo/video consent is optional, granular, revocable and never required for participation.
+10. Cash is not processed online. Families choose a plan; only an authorized manager confirms receipt.
+11. Sensitive status changes retain a timestamp and responsible user.
 
 ## Planned core data model
 
@@ -129,11 +133,11 @@ Target: a genuinely useful pilot by 25 September 2026. This means a small, secur
 
 ### Days 1–2: secure foundation
 
-- Create a dedicated EU-hosted Supabase project.
+- Use the dedicated Frankfurt Neon project and the versioned initial schema.
+- Create a dedicated Firebase project and configure Firebase Authentication.
 - Add environment configuration without committing secrets.
-- Create schema, migrations and Row Level Security.
-- Add family, course-manager and company-manager roles.
-- Implement passwordless email login plus recovery.
+- Enforce family, course-manager and company-manager roles in the server API.
+- Implement email login plus password recovery and multi-device sessions.
 
 Done when a test family and Rahil can sign in and see only permitted test records.
 
@@ -206,7 +210,7 @@ Done when the portal can safely support the first real course week.
 
 ## Immediate next action
 
-Choose a safe Supabase capacity option, then create the isolated project and implement authentication plus the minimum secure schema. The Friending Around organization currently has two active free projects, so Supabase rejected creation of another free project. Do not pause, modify or reuse an existing project as a workaround. Do not enter real child or health data until access policies have been tested using two separate family accounts.
+Create the isolated Firebase project and connect authentication, then connect Netlify server functions to Neon using server-only credentials. Do not enter real child or health data until access controls have been tested using two separate family accounts.
 
 ## Change log
 
@@ -218,3 +222,6 @@ Choose a safe Supabase capacity option, then create the isolated project and imp
 - Defined the two-week path from preview to secure pilot.
 - Previous portal update: replaced the monkey artwork, made the main family interface multilingual and removed prominent demo labels.
 - Attempted to create an isolated Frankfurt Supabase project at €0/month; Supabase rejected it because the organization has reached its two-active-free-project limit. No existing project was changed.
+- Selected Neon PostgreSQL plus Firebase Authentication as the free pilot architecture.
+- Created the isolated Neon project `lively-dawn-61650044`, named “Train With Rahil – School Club Platform”, using PostgreSQL 17 in Frankfurt. Neon Auth remains disabled.
+- Applied and verified `db/migrations/0001_initial_schema.sql`; Neon reports all 20 planned `club` tables.
