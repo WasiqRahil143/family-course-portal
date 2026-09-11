@@ -213,6 +213,7 @@ Create the isolated Supabase project and implement authentication plus the minim
 ### 11 September 2026
 
 - Created this source-of-truth file.
+- Added repository instructions requiring this file to be read and updated with every meaningful change.
 - Recorded the frontend, integrations, limitations, decisions and architecture.
 - Defined the two-week path from preview to secure pilot.
 - Previous portal update: replaced the monkey artwork, made the main family interface multilingual and removed prominent demo labels.
