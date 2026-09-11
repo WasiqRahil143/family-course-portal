@@ -38,6 +38,8 @@ Displayed family and student names are fictional examples. Production student li
 
 ### Working in the frontend
 
+- Neon Auth sign-in, sign-up, email verification, password recovery and account/session UI
+- Authenticated portal gate; course data is not rendered before sign-in
 - Responsive family portal and phone-friendly navigation
 - Family overview with next course, absence shortcut, payment warning and progress summary
 - Child/family, health, emergency-contact and consent interfaces
@@ -52,7 +54,8 @@ Displayed family and student names are fictional examples. Production student li
 
 ### Not production-ready yet
 
-- No authentication, family accounts or persistent database
+- Authentication is connected, but approved-family onboarding and backend authorization are not yet connected
+- No real persistent family, health, consent, attendance or payment records
 - No real student, health, consent, attendance or payment records
 - No password recovery or multi-device session handling
 - Detailed forms still need complete translation
@@ -76,8 +79,9 @@ The public site is a functional frontend preview, not yet an operational portal.
 | Main interface | `app/page.tsx` | Frontend state only |
 | Portal metadata | `app/layout.tsx` | Working |
 | Jungle artwork | `public/jungle-monkey.png` | Working |
-| Relational database | Neon `lively-dawn-61650044` — Train With Rahil – School Club Platform | Created; PostgreSQL 17 in Frankfurt; initial 20-table schema verified; app connection pending |
-| Authentication | Firebase Authentication | Selected; project not yet created or connected |
+| Relational database | Neon `lively-dawn-61650044` — Train With Rahil – School Club Platform | Created; PostgreSQL 17 in Frankfurt; initial 20-table schema and Neon Auth identity migration verified |
+| Authentication | Neon Auth | Enabled and connected to the frontend; verified email required; production redirect domain trusted |
+| Data API | Neon Data API | Enabled with Neon Auth; automatic public-schema grants were deliberately disabled; `club` access policies are pending |
 | Supabase | Friending Around organization | Not used for this portal; isolated creation was blocked by its free-project limit |
 | Email | Hostinger Mail | Separate mailbox; not connected to portal automation |
 | School working list | Shared spreadsheet workflow | Separate; future import or migration needed |
@@ -88,8 +92,8 @@ Never modify Rahil’s other GitHub, Netlify, or Supabase projects. Any database
 
 1. Next.js frontend on Netlify.
 2. A dedicated Neon PostgreSQL database in Frankfurt for relational application data.
-3. Firebase Authentication for family and manager identities and sessions.
-4. Netlify server functions validate Firebase identity and access Neon using server-only credentials.
+3. Neon Auth for family and manager identities, email verification, password recovery and sessions.
+4. The frontend uses Neon Auth directly. Server-side endpoints validate Neon Auth identity before privileged database access.
 5. Families can sign in on several devices using one account. Password reset must work.
 6. A family account may contain multiple guardians and children.
 7. The server enforces roles and school/course assignments on every request; the browser never receives database credentials.
@@ -125,6 +129,7 @@ Never modify Rahil’s other GitHub, Netlify, or Supabase projects. Any database
 - Digital progress should use batch updates so it does not interrupt teaching.
 - Future applications support ranked choices and prevent conflicting acceptances.
 - Six family languages are planned.
+- Neon Auth currently cannot restrict who creates an account. An account alone grants no course access; every family or manager must also be linked to an approved `club.users` record and role on the server.
 - Never connect or alter unrelated projects.
 
 ## Two-week production plan
@@ -134,7 +139,7 @@ Target: a genuinely useful pilot by 25 September 2026. This means a small, secur
 ### Days 1–2: secure foundation
 
 - Use the dedicated Frankfurt Neon project and the versioned initial schema.
-- Create a dedicated Firebase project and configure Firebase Authentication.
+- Configure Neon Auth and require verified email addresses.
 - Add environment configuration without committing secrets.
 - Enforce family, course-manager and company-manager roles in the server API.
 - Implement email login plus password recovery and multi-device sessions.
@@ -210,7 +215,7 @@ Done when the portal can safely support the first real course week.
 
 ## Immediate next action
 
-Create the isolated Firebase project and connect authentication, then connect Netlify server functions to Neon using server-only credentials. Do not enter real child or health data until access controls have been tested using two separate family accounts.
+Implement the approved-user lookup and server-enforced role checks, then connect the first test family to fictional test records. Do not enter real child or health data until access controls have been tested using two separate family accounts.
 
 ## Change log
 
@@ -225,3 +230,7 @@ Create the isolated Firebase project and connect authentication, then connect Ne
 - Selected Neon PostgreSQL plus Firebase Authentication as the free pilot architecture.
 - Created the isolated Neon project `lively-dawn-61650044`, named “Train With Rahil – School Club Platform”, using PostgreSQL 17 in Frankfurt. Neon Auth remains disabled.
 - Applied and verified `db/migrations/0001_initial_schema.sql`; Neon reports all 20 planned `club` tables.
+- Replaced the planned Firebase dependency with Neon Auth to keep authentication and relational data in one isolated project.
+- Enabled Neon Auth and the Data API, required email verification, and trusted only localhost plus `family-course-portal-demo.netlify.app` for redirects.
+- Deliberately disabled automatic public-schema grants when enabling the Data API. No `club` data is exposed through the API yet.
+- Added the frontend authentication gate and account/session UI, plus `0002_neon_auth_identity.sql`; the production build succeeds.

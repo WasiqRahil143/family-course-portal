@@ -1,6 +1,8 @@
 "use client";
 import {useState} from "react";
 import {Home,UserRound,CalendarDays,HeartPulse,ShieldCheck,CreditCard,Sparkles,Menu,X,ChevronRight,Check,Users,ClipboardCheck,Settings,Banknote,BookOpen} from "lucide-react";
+import {AuthGate} from "./auth-gate";
+import {neon} from "@/lib/neon";
 type View="home"|"profile"|"dates"|"health"|"consent"|"payment"|"passport";
 const nav=[
  ["home",Home],["profile",UserRound],["dates",CalendarDays],["health",HeartPulse],["consent",ShieldCheck],["payment",CreditCard],["passport",Sparkles]
@@ -16,12 +18,18 @@ ZH:{nav:["概览","孩子与家庭","课程与日期","健康","同意事项","�
 } as const;
 const skills=[["🐒","Klettern & Hangeln",3],["🦩","Balance",2],["🐼","Rollen",2],["🦘","Springen & Landen",2],["🐻","Krabbeln & Stützen",1],["🦜","Koordination",1]] as const;
 export default function Page(){
+ return <AuthGate><Portal/></AuthGate>;
+}
+function Portal(){
  const [view,setView]=useState<View>("home"),[menu,setMenu]=useState(false),[absence,setAbsence]=useState(false),[reported,setReported]=useState(false),[toast,setToast]=useState(""),[mode,setMode]=useState<"family"|"manager">("family"),[language,setLanguage]=useState<Lang>("DE");
+ const session=neon.auth.useSession();
+ const signedInEmail=session.data?.user.email?.toLowerCase()??"";
+ const isManager=signedInEmail===process.env.NEXT_PUBLIC_MANAGER_EMAIL?.toLowerCase();
  const t=copy[language];
  const go=(v:View)=>{setView(v);setMenu(false);scrollTo({top:0,behavior:"smooth"})}; const save=(s:string)=>{setToast(s);setTimeout(()=>setToast(""),2500)};
- if(mode==="manager") return <ManagerPortal exit={()=>setMode("family")}/>;
+ if(mode==="manager"&&isManager) return <ManagerPortal exit={()=>setMode("family")}/>;
  return <div className="shell" dir={language==="AR"?"rtl":"ltr"}>
-  <aside className={menu?"side open":"side"}><button className="side-x" onClick={()=>setMenu(false)}><X/></button><div className="brand"><span>TR</span><div>Train With<br/><b>Rahil</b></div></div><nav>{nav.map(([id,Icon],i)=><button className={view===id?"active":""} onClick={()=>go(id)} key={id}><Icon size={19}/>{t.nav[i]}</button>)}</nav><button className="manager-link" onClick={()=>setMode("manager")}><Settings size={17}/> Manager</button><div className="account"><i>MB</i><div><b>Familie Beispiel</b><small>mia@example.de</small></div></div></aside>
+  <aside className={menu?"side open":"side"}><button className="side-x" onClick={()=>setMenu(false)}><X/></button><div className="brand"><span>TR</span><div>Train With<br/><b>Rahil</b></div></div><nav>{nav.map(([id,Icon],i)=><button className={view===id?"active":""} onClick={()=>go(id)} key={id}><Icon size={19}/>{t.nav[i]}</button>)}</nav>{isManager&&<button className="manager-link" onClick={()=>setMode("manager")}><Settings size={17}/> Manager</button>}<div className="account"><i>{signedInEmail.slice(0,2).toUpperCase()||"ME"}</i><div><b>{session.data?.user.name||"Mein Konto"}</b><small>{signedInEmail}</small></div></div></aside>
   <main><div className="due-banner"><b>{t.due}</b><span>{t.dueText}</span><button onClick={()=>go("payment")}>{t.details}</button></div><header><button className="hamb" onClick={()=>setMenu(true)}><Menu/></button><div><small>{t.portal}</small><h1>{t.nav[nav.findIndex(x=>x[0]===view)]}</h1></div><select className="language" value={language} onChange={e=>setLanguage(e.target.value as Lang)} aria-label="Language"><option value="DE">🇩🇪 Deutsch</option><option value="FR">🇫🇷 Français</option><option value="EN">🇬🇧 English</option><option value="ES">🇪🇸 Español</option><option value="AR">🇸🇦 العربية</option><option value="ZH">🇨🇳 中文</option></select><button className="child"><i>M</i><span><small>{t.active}</small><b>Mia Beispiel</b></span><ChevronRight size={16}/></button></header>
   <div className="content">
    {view==="home"&&<Dashboard go={go} absence={()=>setAbsence(true)} reported={reported} t={t}/>} 

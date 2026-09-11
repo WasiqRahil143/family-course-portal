@@ -3,3 +3,6 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  NEXT_PUBLIC_NEON_AUTH_URL = "https://ep-spring-bonus-b26vc7ek.neonauth.c-6.eu-central-1.aws.neon.tech/neondb/auth"
+  NEXT_PUBLIC_NEON_DATA_API_URL = "https://ep-spring-bonus-b26vc7ek.apirest.c-6.eu-central-1.aws.neon.tech/neondb/rest/v1"
+  NEXT_PUBLIC_MANAGER_EMAIL = "info@trainwithrahil.com"

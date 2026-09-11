@@ -28,8 +28,7 @@
       ]
     },
     "types": [
-      "node",
-      "@cloudflare/workers-types"
+      "node"
     ]
   },
   "include": [
@@ -42,6 +41,15 @@
   ],
   "exclude": [
     "node_modules",
-    "examples"
+    "examples",
+    "build",
+    "components",
+    "hooks",
+    "lib/utils.ts",
+    "db/index.ts",
+    "db/schema.ts",
+    "drizzle.config.ts",
+    "app/chatgpt-auth.ts",
+    "vite.config.ts"
   ]
 }
