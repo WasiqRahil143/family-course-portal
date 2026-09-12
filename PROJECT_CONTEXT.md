@@ -48,10 +48,10 @@ Displayed family and student names are fictional examples. Production student li
 - Manager cash-confirmation interaction
 - Jungle Passport progress categories
 - Manager views for attendance, courses, cash payments and access roles
-- Six-language selector: German, French, English, Spanish, Arabic and Chinese
-- Main navigation, overview and payment warning translate; Arabic supports right-to-left layout
+- Five-language selector: German, French, English, Spanish and Chinese
+- Main navigation, overview and payment warning translate across the five enabled languages
 - Manager identities open directly in the manager portal; the family view remains available from its navigation
-- Arabic mobile layout has dedicated right-to-left spacing and prevents hero text from being covered by the artwork
+- A direct sign-out control closes the Neon Auth session and returns to the sign-in page
 - Clean custom monkey artwork for Jungle Gymnastics
 
 ### Not production-ready yet
@@ -131,7 +131,7 @@ Never modify Rahil’s other GitHub, Netlify, or Supabase projects. Any database
 - Superhero Pass should cover strength, agility, coordination, endurance, mobility and teamwork.
 - Digital progress should use batch updates so it does not interrupt teaching.
 - Future applications support ranked choices and prevent conflicting acceptances.
-- Six family languages are planned.
+- Five family languages are planned: German, French, English, Spanish and Chinese. Arabic was removed after mobile usability problems.
 - Neon Auth currently cannot restrict who creates an account. An account alone grants no course access; every family or manager must also be linked to an approved `club.users` record and role on the server.
 - Never connect or alter unrelated projects.
 
@@ -191,8 +191,8 @@ Done when accounts cannot access another family’s data and consent is revocabl
 ### Days 11–12: languages and quality
 
 - Move every interface string into one translation system
-- Finish DE, FR and EN first; review ES, AR and ZH before production activation
-- Check Arabic layout, mobile screens, keyboard use and readable sizes
+- Finish DE, FR and EN first; review ES and ZH before production activation
+- Check mobile screens, keyboard use and readable sizes
 - Remove fictional data and preview-only controls from production mode
 
 Done when every enabled production language is consistent on every screen.
@@ -247,3 +247,5 @@ Implement the approved-user lookup and server-enforced role checks, then connect
 - Confirmed delivery of Neon Auth's SMTP test, password-reset email and a newly resent six-digit email-verification code to the Hostinger inbox.
 - Made manager accounts open directly in the manager portal and added Neon Auth's admin role as a manager identity signal.
 - Fixed the Arabic phone layout, including header spacing, right-to-left controls and hero artwork overlap.
+- Removed Arabic from the portal after continued mobile usability problems.
+- Replaced the account-menu sign-out action with a direct Neon Auth sign-out button that returns to the sign-in page.
