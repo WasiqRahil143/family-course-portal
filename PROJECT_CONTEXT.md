@@ -1,6 +1,6 @@
 # Train With Rahil Portal — Project Context
 
-Last updated: 11 September 2026
+Last updated: 12 September 2026
 
 ## How to use this file
 
@@ -236,3 +236,8 @@ Implement the approved-user lookup and server-enforced role checks, then connect
 - Added the frontend authentication gate and account/session UI, plus `0002_neon_auth_identity.sql`; the production build succeeds.
 - Fixed the Neon verification-code route to use `/auth/email-verification` and allowed the complete set of supported authentication routes. New users now see the six-digit code entry screen instead of being returned to sign-in.
 - Explicitly enabled OTP email verification in `NeonAuthUIProvider`, so both sign-up and an `EMAIL_NOT_VERIFIED` sign-in response navigate to the six-digit verification form.
+
+### 12 September 2026
+
+- Added a required confirmation-password field to account creation so families must enter the same password twice before signing up.
+- Confirmed that Neon Auth is using its shared email provider (`auth@mail.myneon.app`). Verification-code delivery and resend reliability must be validated before real family onboarding; custom SMTP is the production fallback if the shared sender remains unreliable.

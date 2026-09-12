@@ -31,6 +31,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
     <NeonAuthUIProvider
       authClient={neon.auth}
       redirectTo="/"
+      credentials={{ confirmPassword: true }}
       emailVerification={{ otp: true }}
     >
       <AuthBoundary>{children}</AuthBoundary>
