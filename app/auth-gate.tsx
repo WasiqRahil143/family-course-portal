@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AuthView, NeonAuthUIProvider, UserButton } from "@neondatabase/neon-js/auth/react/ui";
-import { LockKeyhole } from "lucide-react";
+import { AuthView, NeonAuthUIProvider } from "@neondatabase/neon-js/auth/react/ui";
+import { LockKeyhole, LogOut } from "lucide-react";
 import { neon } from "@/lib/neon";
 
 const AUTH_PATHS = new Set([
@@ -42,6 +42,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
 function AuthBoundary({ children }: { children: React.ReactNode }) {
   const session = neon.auth.useSession();
   const [authPath, setAuthPath] = useState(currentAuthPath);
+  const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
     const syncPath = () => setAuthPath(currentAuthPath());
@@ -72,5 +73,16 @@ function AuthBoundary({ children }: { children: React.ReactNode }) {
     );
   }
 
-  return <><div className="auth-user-button"><UserButton /></div>{children}</>;
+  const signOut = async () => {
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await neon.auth.signOut();
+      window.location.replace("/auth/sign-in");
+    } catch {
+      setSigningOut(false);
+    }
+  };
+
+  return <><button className="auth-sign-out" onClick={signOut} disabled={signingOut}><LogOut size={17}/>{signingOut ? "Wird abgemeldet…" : "Abmelden"}</button>{children}</>;
 }
