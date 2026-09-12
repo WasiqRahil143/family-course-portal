@@ -28,7 +28,11 @@ function currentAuthPath() {
 
 export function AuthGate({ children }: { children: React.ReactNode }) {
   return (
-    <NeonAuthUIProvider authClient={neon.auth} redirectTo="/">
+    <NeonAuthUIProvider
+      authClient={neon.auth}
+      redirectTo="/"
+      emailVerification={{ otp: true }}
+    >
       <AuthBoundary>{children}</AuthBoundary>
     </NeonAuthUIProvider>
   );
