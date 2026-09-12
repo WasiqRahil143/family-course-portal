@@ -52,12 +52,21 @@ Displayed family and student names are fictional examples. Production student li
 - Main navigation, overview and payment warning translate across the five enabled languages
 - Manager identities open directly in the manager portal; the family view remains available from its navigation
 - A direct sign-out control closes the Neon Auth session and returns to the sign-in page
+- Manager family-account screen with Neon Auth admin actions for creating accounts, resetting passwords, disabling/reactivating accounts and removing accounts
+- Manager family records include a configurable access-until date; enforcement of that date is still pending the shared database connection
+- Full course configuration interface for adding, editing and removing courses; fields include image, tagline, description, schedule, level, price, capacity, lead and preregistration state
+- Course-lead directory and course assignment fields
+- Editable seven-stage progress/pass framework per course
+- One-click switch from the manager portal to the family-view preview
 - Clean custom monkey artwork for Jungle Gymnastics
 
 ### Not production-ready yet
 
 - Authentication is connected, but approved-family onboarding and backend authorization are not yet connected
 - No real persistent family, health, consent, attendance or payment records
+- New manager course, lead, family-metadata and passport configuration is stored only in the current browser for this preview; it is not yet shared across devices
+- Neon Auth admin account actions are implemented but require live end-to-end verification before family invitations begin
+- Access-until dates are displayed but do not yet automatically block an expired user
 - No real student, health, consent, attendance or payment records
 - No password recovery or multi-device session handling
 - Detailed forms still need complete translation
@@ -69,7 +78,7 @@ Displayed family and student names are fictional examples. Production student li
 - Superhero Pass is not implemented
 - Manager screens still use fictional preview records until the secure role and data APIs are connected
 
-The public site is a functional frontend preview, not yet an operational portal.
+The public site is a functional frontend preview with real authentication administration, but it is not yet an operational family-data portal.
 
 ## Technical map
 
@@ -79,7 +88,8 @@ The public site is a functional frontend preview, not yet an operational portal.
 | Public preview | Netlify: `family-course-portal-demo.netlify.app` | Connected; manually deployed |
 | Frontend | Next.js 16, React 19, TypeScript, static export | Working |
 | Styling | `app/globals.css` | Working |
-| Main interface | `app/page.tsx` | Frontend state only |
+| Main interface | `app/page.tsx` | Family preview; frontend state only |
+| Manager configuration | `app/manager-portal.tsx` | UI complete; Neon Auth account actions connected; configuration currently browser-local |
 | Portal metadata | `app/layout.tsx` | Working |
 | Jungle artwork | `public/jungle-monkey.png` | Working |
 | Relational database | Neon `lively-dawn-61650044` — Train With Rahil – School Club Platform | Created; PostgreSQL 17 in Frankfurt; initial 20-table schema and Neon Auth identity migration verified |
@@ -218,7 +228,7 @@ Done when the portal can safely support the first real course week.
 
 ## Immediate next action
 
-Implement the approved-user lookup and server-enforced role checks, then connect the first test family to fictional test records. Do not enter real child or health data until access controls have been tested using two separate family accounts.
+Persist manager-created family metadata, course leads, courses and progress frameworks in Neon with server-enforced manager/family policies. Enforce account expiry, then connect one test family to an empty family profile and verify isolation with a second account. Do not enter real child or health data until those access boundaries pass.
 
 ## Change log
 
@@ -249,3 +259,5 @@ Implement the approved-user lookup and server-enforced role checks, then connect
 - Fixed the Arabic phone layout, including header spacing, right-to-left controls and hero artwork overlap.
 - Removed Arabic from the portal after continued mobile usability problems.
 - Replaced the account-menu sign-out action with a direct Neon Auth sign-out button that returns to the sign-in page.
+- Added the first manager configuration layer: family account administration, access dates, course-lead records, full course CRUD, preregistration switches, image fields, and editable seven-stage course passports.
+- Added direct switching between manager and family views. Neon Auth account actions are wired to real admin endpoints; configuration records remain browser-local until the next database-policy step.
