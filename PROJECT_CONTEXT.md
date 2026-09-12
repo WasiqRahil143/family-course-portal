@@ -50,6 +50,8 @@ Displayed family and student names are fictional examples. Production student li
 - Manager views for attendance, courses, cash payments and access roles
 - Six-language selector: German, French, English, Spanish, Arabic and Chinese
 - Main navigation, overview and payment warning translate; Arabic supports right-to-left layout
+- Manager identities open directly in the manager portal; the family view remains available from its navigation
+- Arabic mobile layout has dedicated right-to-left spacing and prevents hero text from being covered by the artwork
 - Clean custom monkey artwork for Jungle Gymnastics
 
 ### Not production-ready yet
@@ -65,6 +67,7 @@ Displayed family and student names are fictional examples. Production student li
 - No finalized privacy, retention or production consent wording
 - No school approval workflow or scheduling-conflict protection
 - Superhero Pass is not implemented
+- Manager screens still use fictional preview records until the secure role and data APIs are connected
 
 The public site is a functional frontend preview, not yet an operational portal.
 
@@ -83,7 +86,7 @@ The public site is a functional frontend preview, not yet an operational portal.
 | Authentication | Neon Auth | Enabled and connected to the frontend; verified email required; production redirect domain trusted |
 | Data API | Neon Data API | Enabled with Neon Auth; automatic public-schema grants were deliberately disabled; `club` access policies are pending |
 | Supabase | Friending Around organization | Not used for this portal; isolated creation was blocked by its free-project limit |
-| Email | Hostinger Mail | Separate mailbox; not connected to portal automation |
+| Email | Hostinger Mail via Neon Auth custom SMTP | Connected; verification, password-reset and SMTP test delivery confirmed on 12 September 2026 |
 | School working list | Shared spreadsheet workflow | Separate; future import or migration needed |
 
 Never modify Rahil’s other GitHub, Netlify, or Supabase projects. Any database must be a new project dedicated to this portal, preferably in an EU region.
@@ -240,4 +243,7 @@ Implement the approved-user lookup and server-enforced role checks, then connect
 ### 12 September 2026
 
 - Added a required confirmation-password field to account creation so families must enter the same password twice before signing up.
-- Confirmed that Neon Auth is using its shared email provider (`auth@mail.myneon.app`). Verification-code delivery and resend reliability must be validated before real family onboarding; custom SMTP is the production fallback if the shared sender remains unreliable.
+- Replaced Neon Auth's shared sender with the dedicated Hostinger mailbox `info@trainwithrahil.com` through custom SMTP.
+- Confirmed delivery of Neon Auth's SMTP test, password-reset email and a newly resent six-digit email-verification code to the Hostinger inbox.
+- Made manager accounts open directly in the manager portal and added Neon Auth's admin role as a manager identity signal.
+- Fixed the Arabic phone layout, including header spacing, right-to-left controls and hero artwork overlap.
